@@ -1,5 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { provideRouter } from '@angular/router';
 import { AppComponent } from './app.component';
+import { routes } from './app.routes';
 
 describe('AppComponent', () => {
   let fixture: ComponentFixture<AppComponent>;
@@ -7,7 +9,8 @@ describe('AppComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [AppComponent]
+      imports: [AppComponent],
+      providers: [provideRouter(routes)]
     }).compileComponents();
 
     fixture = TestBed.createComponent(AppComponent);
@@ -15,25 +18,30 @@ describe('AppComponent', () => {
     fixture.detectChanges();
   });
 
-  it('creates the portfolio starter', () => {
+  it('creates the portfolio application', () => {
     expect(component).toBeTruthy();
   });
 
-  it('renders the replaceable student name', () => {
+  it('displays the student name in the header', () => {
     const page = fixture.nativeElement as HTMLElement;
 
-    expect(page.querySelector('h1')?.textContent).toContain(component.studentName);
+    expect(page.querySelector('.site-name')?.textContent)
+      .toContain(component.studentName);
   });
 
-  it('renders every skill from the component data', () => {
-    const skillItems = fixture.nativeElement.querySelectorAll('.skill-list li');
+  it('displays all four navigation links', () => {
+    const navigationLinks =
+      fixture.nativeElement.querySelectorAll('nav a');
 
-    expect(skillItems.length).toBe(component.skills.length);
+    expect(navigationLinks.length).toBe(4);
   });
 
-  it('renders every project from the component data', () => {
-    const projectCards = fixture.nativeElement.querySelectorAll('.project-card');
+  it('displays the current year in the footer', () => {
+    const footer =
+      fixture.nativeElement.querySelector('.site-footer');
 
-    expect(projectCards.length).toBe(component.projects.length);
+    expect(footer?.textContent).toContain(
+      component.currentYear.toString()
+    );
   });
 });
